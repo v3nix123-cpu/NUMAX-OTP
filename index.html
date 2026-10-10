@@ -3,6 +3,9 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NumaX OTP</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
     <!-- Tailwind CSS CDN -->
     
     <!-- FontAwesome for Live Brand Icons -->
@@ -845,6 +848,82 @@ button.bg-\[\#00A859\],.oth-btn,.fo-btn,.oc-btn{
 html[data-theme="gray"] .th-moon{display:none}
 html:not([data-theme="gray"]) .th-sun{display:none}
 </style>
+<style id="green-buttons-style">
+/* ===== GREEN BUTTONS (works in black and white mode) ===== */
+:root{--g1:#12a463;--g2:#008a4a;--g3:#005c31}
+
+/* PRIMARY = solid green, white text */
+[onclick^="openTrafficPage"] button,[onclick="openTrafficPage('facebook')"] button,[onclick="openTrafficPage('instagram')"] button,
+button.bg-\[\#00A859\],.oth-btn,.fo-btn,.oc-btn{
+  background:linear-gradient(180deg,var(--g1),var(--g2))!important;color:#ffffff!important;border:1px solid var(--g2)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 4px 0 var(--g3),0 9px 14px -6px rgba(0,0,0,.55)!important;
+  text-shadow:0 1px 0 rgba(0,70,35,.45)}
+[onclick^="openTrafficPage"] button *,button.bg-\[\#00A859\] *,.oth-btn *,.fo-btn *,.oc-btn *{color:inherit!important}      /* text/icons inside can never turn dark */
+[onclick^="openTrafficPage"] button:hover,button.bg-\[\#00A859\]:hover,.oth-btn:hover,.fo-btn:hover,.oc-btn:hover{background:linear-gradient(180deg,#1bb571,#009a54)!important}
+[onclick^="openTrafficPage"] button:active,button.bg-\[\#00A859\]:active,.oth-btn:active,.fo-btn:active,.oc-btn:active{
+  transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 0 var(--g3)!important}
+[onclick^="openTrafficPage"] button:disabled,button.bg-\[\#00A859\]:disabled,.oth-btn:disabled,.fo-btn:disabled,.oc-btn:disabled{opacity:.65}
+
+/* SECONDARY = green outline / tint */
+.app-back,.na-btn,.na-btn-danger,.fo-copy,.tg-pill,#traffic-modal button.bg-\[\#181E25\]{
+  background:rgba(0,138,74,.12)!important;color:#4fd69a!important;border:1px solid rgba(0,138,74,.5)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 3px 0 rgba(0,55,30,.9)!important;text-shadow:none}
+.app-back *,.na-btn *,.fo-copy *,.tg-pill *,#traffic-modal button.bg-\[\#181E25\] *{color:inherit!important}
+.app-back:hover,.na-btn:hover,.fo-copy:hover,.tg-pill:hover,#traffic-modal button.bg-\[\#181E25\]:hover{background:rgba(0,138,74,.22)!important}
+.app-back:active,.na-btn:active,.fo-copy:active,.tg-pill:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,55,30,.9)!important}
+
+/* OTP chips (tap to copy) + success badge + active tab */
+.na-otp,.sc-code{background:rgba(0,138,74,.14)!important;color:#5ee0a2!important;border:1px solid rgba(0,138,74,.55)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 3px 0 rgba(0,55,30,.9)!important}
+.na-otp:active,.sc-code:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,55,30,.9)!important}
+.na-ok{background:var(--g2)!important;color:#ffffff!important;border-color:var(--g2)!important}
+.na-tab.active{color:#3fd48f;border-bottom-color:var(--g2)}
+.notif-otp{border-color:var(--g2)}
+
+/* ----- white mode: same green, flat & soft ----- */
+html[data-theme="gray"] [onclick^="openTrafficPage"] button,html[data-theme="gray"] button.bg-\[\#00A859\],
+html[data-theme="gray"] .oth-btn,html[data-theme="gray"] .fo-btn,html[data-theme="gray"] .oc-btn{
+  box-shadow:0 1px 2px rgba(16,24,40,.22),inset 0 1px 0 rgba(255,255,255,.25)!important;text-shadow:none}
+html[data-theme="gray"] [onclick^="openTrafficPage"] button:active,html[data-theme="gray"] button.bg-\[\#00A859\]:active,
+html[data-theme="gray"] .oth-btn:active,html[data-theme="gray"] .fo-btn:active,html[data-theme="gray"] .oc-btn:active{transform:translateY(1px);box-shadow:none!important}
+html[data-theme="gray"] .app-back,html[data-theme="gray"] .na-btn,html[data-theme="gray"] .na-btn-danger,html[data-theme="gray"] .fo-copy,
+html[data-theme="gray"] .tg-pill,html[data-theme="gray"] #traffic-modal button.bg-\[\#181E25\]{
+  background:#ecfdf3!important;color:#05603a!important;border:1px solid #6fc79c!important;box-shadow:0 1px 2px rgba(16,24,40,.06)!important}
+html[data-theme="gray"] .app-back:hover,html[data-theme="gray"] .na-btn:hover,html[data-theme="gray"] .fo-copy:hover,
+html[data-theme="gray"] .tg-pill:hover,html[data-theme="gray"] #traffic-modal button.bg-\[\#181E25\]:hover{background:#d3f8e2!important}
+html[data-theme="gray"] .app-back:active,html[data-theme="gray"] .na-btn:active,html[data-theme="gray"] .fo-copy:active,html[data-theme="gray"] .tg-pill:active{box-shadow:none!important}
+html[data-theme="gray"] .na-otp,html[data-theme="gray"] .sc-code{background:#ecfdf3!important;color:#05603a!important;border:1px solid #6fc79c!important;box-shadow:0 1px 2px rgba(16,24,40,.06)!important}
+html[data-theme="gray"] .na-otp:active,html[data-theme="gray"] .sc-code:active{box-shadow:none!important}
+html[data-theme="gray"] .na-tab.active{color:#05603a}
+html[data-theme="gray"] .notif-otp{border-left:4px solid var(--g2)}
+</style>
+<style id="admin-style">
+.traffic-brand-logo{filter:none!important;opacity:1!important}          /* FB / IG logos = original colours */
+#admin-home,#admin-board{display:flex;flex-direction:column;gap:12px}
+.ad-label{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--lo);padding:0 2px}
+.ad-stats,.ad-tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ad-stat{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:14px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow,inset 0 1px 0 rgba(255,255,255,.07))}
+.ad-k{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}
+.ad-v{font-size:34px;font-weight:900;line-height:1;font-family:ui-monospace,monospace;color:var(--hi)}
+.ad-tile{display:flex;flex-direction:column;gap:5px;padding:15px 14px;border-radius:14px;cursor:pointer;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow,inset 0 1px 0 rgba(255,255,255,.07));border-left:3px solid #008a4a;-webkit-tap-highlight-color:transparent;transition:transform .15s ease,border-color .2s ease}
+.ad-tile:hover{border-color:var(--line-strong);border-left-color:#008a4a}
+.ad-tile:active{transform:scale(.98)}
+.ad-tile.wide{grid-column:1/-1}
+.ad-tile-t{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--hi)}
+.ad-tile-s{font-size:10px;font-weight:600;color:var(--lo)}
+.lb-list{display:flex;flex-direction:column;gap:8px}
+.lb-sub{font-size:11px;font-weight:700;color:var(--mid);padding:0 2px 2px;font-family:ui-monospace,monospace}
+.lb-row{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.lb-row.first{border-color:rgba(0,138,74,.7)}
+.lb-rank{width:34px;height:34px;flex-shrink:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;font-family:ui-monospace,monospace;color:var(--mid);background:rgba(127,127,127,.14)}
+.lb-rank.top{font-size:20px;background:transparent}
+.lb-who{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.lb-name{font-size:13px;font-weight:800;color:var(--hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-user{font-size:11px;font-weight:600;color:var(--mid)}
+.lb-id{font-size:10px;font-family:ui-monospace,monospace;color:var(--lo)}
+.lb-count{font-family:ui-monospace,monospace;font-size:20px;font-weight:900;color:#3fd48f;white-space:nowrap}
+.lb-count small{font-size:9px;font-weight:800;letter-spacing:.08em;color:var(--lo)}
+html[data-theme="gray"] .lb-count{color:#05603a}
+</style>
 <script id="theme-init">
 (function () {
   var KEY = 'numax_theme_v2';
@@ -904,7 +983,7 @@ html:not([data-theme="gray"]) .th-sun{display:none}
         <div class="flex flex-col items-center gap-3 text-center">
             <div class="header-logo-social-wrap">
                 <div class="header-main-logo">
-                    <img src="https://i.ibb.co/ynKKWb17/photo-2026-10-06-11-26-42.jpg" alt="NumaX OTP Logo">
+                    <img src="https://i.ibb.co/7N21wRpy/photo-2026-09-28-22-42-48.jpg" alt="NumaX OTP Logo">
                 </div>
 </div>
             <div>
@@ -920,6 +999,12 @@ html:not([data-theme="gray"]) .th-sun{display:none}
                 <button onclick="document.getElementById(&#39;error-banner&#39;).classList.add(&#39;hidden&#39;)" class="text-gray-400 hover:text-white">✕</button>
             </div>
             <p id="error-message">Error details...</p>
+        </div>
+
+        <!-- Admin entry (visible only for the admin Telegram ID) -->
+        <div id="admin-entry" class="go-card" style="display:none" onclick="openPage('admin')" role="button" tabindex="0">
+            <div class="go-main"><span class="go-title">ADMIN PANEL</span><span class="go-sub">Dashboard • leaderboards</span></div>
+            <span class="go-side"><i class="fa-solid fa-chevron-right"></i></span>
         </div>
 
         <!-- Fetch All OTP (opens its own tab) -->
@@ -1058,6 +1143,29 @@ html:not([data-theme="gray"]) .th-sun{display:none}
             </div>
             <div id="others-results" class="oc-list"><div class="oc-hint">Type a service name (e.g. WhatsApp, Telegram) to see the available countries.</div></div>
             <div id="others-session-container"></div>
+        </div>
+    </div>
+
+    <div id="page-admin" class="app-page">
+        <div class="app-page-head">
+            <button class="app-back" onclick="adminBack()" aria-label="Back"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg><span>Back</span></button>
+            <h2 class="app-title" id="admin-title">Admin Panel</h2>
+        </div>
+        <div class="app-page-body">
+            <div id="admin-home">
+                <div class="ad-label">Dashboard</div>
+                <div class="ad-stats">
+                    <div class="ad-stat"><span class="ad-k">Today OTP</span><b class="ad-v" id="ad-today">–</b></div>
+                    <div class="ad-stat"><span class="ad-k">Yesterday OTP</span><b class="ad-v" id="ad-yest">–</b></div>
+                </div>
+                <div class="ad-label" style="margin-top:6px">Leaderboards</div>
+                <div class="ad-tiles">
+                    <div class="ad-tile" onclick="openBoard('today')" role="button" tabindex="0"><span class="ad-tile-t">TODAY TOP USER OTP</span><span class="ad-tile-s">Who got most OTP today</span></div>
+                    <div class="ad-tile" onclick="openBoard('all')" role="button" tabindex="0"><span class="ad-tile-t">ALL TIME USER OTP</span><span class="ad-tile-s">Top users, all time</span></div>
+                    <div class="ad-tile wide" onclick="openBoard('week')" role="button" tabindex="0"><span class="ad-tile-t">LAST 7 DAYS TOP</span><span class="ad-tile-s">Weekly leaderboard</span></div>
+                </div>
+            </div>
+            <div id="admin-board" style="display:none"><div id="lb-list" class="lb-list"></div></div>
         </div>
     </div>
 
@@ -1637,7 +1745,7 @@ html:not([data-theme="gray"]) .th-sun{display:none}
         }
 
         // ===== separate pages (own tab + back button) =====
-        const APP_PAGES = { fetchall: 'page-fetchall', others: 'page-others' };
+        const APP_PAGES = { fetchall: 'page-fetchall', others: 'page-others', admin: 'page-admin' };
 
         function stopManualOtp() {
             if (manualOtpTimer) { clearInterval(manualOtpTimer); manualOtpTimer = null; }
@@ -1656,8 +1764,10 @@ html:not([data-theme="gray"]) .th-sun{display:none}
             });
             document.body.classList.toggle('page-open', !!name);
             if (name === 'others') { renderModalSessions(); renderOthersResults(); }
+            if (name === 'admin') adminOpen(); else adminClose();
         }
         function openPage(name) {
+            if (name === 'admin' && !isAdmin()) return;                 // admin only
             if (location.hash !== '#' + name) history.pushState({ page: name }, '', '#' + name);
             showPage(name);
         }
@@ -1672,12 +1782,11 @@ html:not([data-theme="gray"]) .th-sun{display:none}
         }
         function syncPages() {
             const n = location.hash.slice(1);
-            showPage(APP_PAGES[n] ? n : null);
+            showPage(APP_PAGES[n] && (n !== 'admin' || isAdmin()) ? n : null);
         }
         window.addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('page-open')) closePage(); });
         window.addEventListener('popstate', syncPages);
         window.addEventListener('hashchange', syncPages);
-        syncPages();
 
         // ===== STEX LIVE CONSOLE inside the Live Codes Feed (Instagram / Facebook / WhatsApp only) =====
         const SC_LABEL = { instagram: 'INSTAGRAM', facebook: 'FACEBOOK', whatsapp: 'WHATSAPP' };
@@ -1742,6 +1851,157 @@ html:not([data-theme="gray"]) .th-sun{display:none}
                     '</div>';
             }).join('');
         }
+
+        // ===== ADMIN (Telegram ID gate) + OTP STATS (Firebase Realtime Database) =====
+        const NUMAX_ADMIN_ID = 8583821482;
+        const NUMAX_FIREBASE = {
+            apiKey: "AIzaSyC1C8SS6FzCuli0KH6e1VYhXsyXscDIoFM",
+            authDomain: "numax-otp-c8f73.firebaseapp.com",
+            databaseURL: "https://numax-otp-c8f73-default-rtdb.firebaseio.com",
+            projectId: "numax-otp-c8f73",
+            storageBucket: "numax-otp-c8f73.firebasestorage.app",
+            messagingSenderId: "570043028345",
+            appId: "1:570043028345:web:a01537ee6fb311aa4e15a8",
+            measurementId: "G-0GSBVM07G1"
+        };
+        let fbDb = null;
+
+        function getDb() {
+            if (fbDb) return fbDb;
+            try {
+                if (!window.firebase || !firebase.database) return null;
+                if (!firebase.apps.length) firebase.initializeApp(NUMAX_FIREBASE);
+                fbDb = firebase.database();
+            } catch (e) { console.error('Firebase init error:', e); }
+            return fbDb;
+        }
+
+        function tgUser() {
+            try {
+                const tg = window.Telegram && window.Telegram.WebApp;
+                const u = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
+                return u && u.id ? u : null;
+            } catch (e) { return null; }
+        }
+        function isAdmin() {
+            const u = tgUser();
+            return !!u && Number(u.id) === NUMAX_ADMIN_ID;
+        }
+
+        // day key in Bangladesh time (UTC+6) so "today" is the same for every user
+        function bdDateKey(offsetDays) {
+            return new Date(Date.now() + 6 * 3600 * 1000 - (offsetDays || 0) * 86400000).toISOString().slice(0, 10);
+        }
+
+        // count every OTP a user receives on the web
+        function recordOtp(n) {
+            try {
+                const db = getDb(), u = tgUser();
+                if (!db || !u || !n) return;
+                const inc = firebase.database.ServerValue.increment(n);
+                const d = bdDateKey(0), uid = String(u.id);
+                const upd = {};
+                upd['stats/daily/' + d + '/total'] = inc;
+                upd['stats/daily/' + d + '/users/' + uid] = inc;
+                upd['stats/users/' + uid + '/total'] = inc;
+                upd['stats/profiles/' + uid] = {
+                    name: [u.first_name, u.last_name].filter(Boolean).join(' ') || 'User',
+                    username: u.username || '',
+                    updated: firebase.database.ServerValue.TIMESTAMP
+                };
+                db.ref().update(upd).catch(e => console.error('stats write failed:', e));
+            } catch (e) { console.error(e); }
+        }
+
+        function refreshAdminEntry() {
+            try { const tg = window.Telegram && window.Telegram.WebApp; if (tg) { tg.ready && tg.ready(); tg.expand && tg.expand(); } } catch (e) {}
+            const el = document.getElementById('admin-entry');
+            if (el) el.style.display = isAdmin() ? '' : 'none';
+        }
+        window.addEventListener('load', refreshAdminEntry);
+        refreshAdminEntry();
+
+        // ---- admin panel ----
+        let adminTimer = null, adminView = 'home';
+        const BOARD_TITLES = { today: 'Today Top User OTP', week: 'Last 7 Days Top', all: 'All Time User OTP' };
+
+        function adminShowHome() {
+            adminView = 'home';
+            const h = document.getElementById('admin-home'), b = document.getElementById('admin-board'), t = document.getElementById('admin-title');
+            if (h) h.style.display = ''; if (b) b.style.display = 'none'; if (t) t.textContent = 'Admin Panel';
+        }
+        function adminOpen() {
+            if (!isAdmin()) return;
+            adminShowHome();
+            loadAdminStats();
+            if (adminTimer) clearInterval(adminTimer);
+            adminTimer = setInterval(() => { if (adminView === 'home') loadAdminStats(); }, 20000);
+        }
+        function adminClose() { if (adminTimer) { clearInterval(adminTimer); adminTimer = null; } }
+        function adminBack() { if (adminView === 'board') adminShowHome(); else closePage(); }
+
+        async function loadAdminStats() {
+            if (!isAdmin()) return;
+            const a = document.getElementById('ad-today'), b = document.getElementById('ad-yest');
+            const db = getDb();
+            if (!db) { if (a) a.textContent = '—'; if (b) b.textContent = '—'; return; }
+            try {
+                const [s1, s2] = await Promise.all([
+                    db.ref('stats/daily/' + bdDateKey(0) + '/total').once('value'),
+                    db.ref('stats/daily/' + bdDateKey(1) + '/total').once('value')
+                ]);
+                if (a) a.textContent = Number(s1.val()) || 0;
+                if (b) b.textContent = Number(s2.val()) || 0;
+            } catch (e) { if (a) a.textContent = '!'; if (b) b.textContent = '!'; }
+        }
+
+        async function openBoard(kind) {
+            if (!isAdmin()) return;
+            adminView = 'board';
+            document.getElementById('admin-home').style.display = 'none';
+            document.getElementById('admin-board').style.display = '';
+            document.getElementById('admin-title').textContent = BOARD_TITLES[kind] || 'Leaderboard';
+            const list = document.getElementById('lb-list');
+            const sub = kind === 'today' ? bdDateKey(0) + '  •  Bangladesh time'
+                      : kind === 'week' ? bdDateKey(6) + '  →  ' + bdDateKey(0)
+                      : 'Top 100 users, all time';
+            list.innerHTML = '<div class="lb-sub">' + escHtml(sub) + '</div><div class="oc-hint">Loading...</div>';
+            try {
+                const db = getDb();
+                if (!db) throw new Error('no db');
+                const counts = {};
+                if (kind === 'today') {
+                    const s = await db.ref('stats/daily/' + bdDateKey(0) + '/users').once('value');
+                    const v = s.val() || {};
+                    Object.keys(v).forEach(u => counts[u] = Number(v[u]) || 0);
+                } else if (kind === 'week') {
+                    const snaps = await Promise.all([0, 1, 2, 3, 4, 5, 6].map(i => db.ref('stats/daily/' + bdDateKey(i) + '/users').once('value')));
+                    snaps.forEach(s => { const v = s.val() || {}; Object.keys(v).forEach(u => counts[u] = (counts[u] || 0) + (Number(v[u]) || 0)); });
+                } else {
+                    const s = await db.ref('stats/users').orderByChild('total').limitToLast(100).once('value');
+                    s.forEach(ch => { counts[ch.key] = Number((ch.val() || {}).total) || 0; });
+                }
+                const rows = Object.keys(counts).map(uid => ({ uid, n: counts[uid] })).filter(r => r.n > 0).sort((a, b) => b.n - a.n).slice(0, 100);
+                const prof = (await db.ref('stats/profiles').once('value')).val() || {};
+                const medals = ['🥇', '🥈', '🥉'];
+                if (adminView !== 'board') return;                          // user already left
+                list.innerHTML = '<div class="lb-sub">' + escHtml(sub) + '</div>' + (rows.length === 0
+                    ? '<div class="oc-hint">No OTP recorded yet.</div>'
+                    : rows.map((r, i) => {
+                        const pr = prof[r.uid] || {};
+                        return '<div class="lb-row' + (i === 0 ? ' first' : '') + '">' +
+                            '<div class="lb-rank' + (i < 3 ? ' top' : '') + '">' + (i < 3 ? medals[i] : (i + 1)) + '</div>' +
+                            '<div class="lb-who"><span class="lb-name">' + escHtml(pr.name || 'Unknown') + '</span>' +
+                            '<span class="lb-user">' + (pr.username ? '@' + escHtml(pr.username) : 'no username') + '</span>' +
+                            '<span class="lb-id">ID: ' + escHtml(r.uid) + '</span></div>' +
+                            '<div class="lb-count">' + r.n + '<small> OTP</small></div></div>';
+                    }).join(''));
+            } catch (e) {
+                list.innerHTML = '<div class="lb-sub">' + escHtml(sub) + '</div><div class="oc-hint">Could not load data. Check connection / Firebase rules.</div>';
+            }
+        }
+
+        syncPages();                                   // open the page named in the URL hash (after all page code is defined)
 
         // ===== NOTIFICATION SYSTEM (always on top) =====
         function notify(type, title, text, opts) {
@@ -2221,6 +2481,7 @@ html:not([data-theme="gray"]) .th-sun{display:none}
                 saveSessions(sessions);
                 renderModalSessions();
                 fresh.forEach(f => notifyOtp(f.code, f.num));
+                recordOtp(fresh.length);
             }
         }
 
