@@ -854,15 +854,15 @@ html:not([data-theme="gray"]) .th-sun{display:none}
 
 /* PRIMARY = solid green, white text */
 [onclick^="openTrafficPage"] button,[onclick="openTrafficPage('facebook')"] button,[onclick="openTrafficPage('instagram')"] button,
-button.bg-\[\#00A859\],.oth-btn,.fo-btn,.oc-btn{
+button.bg-\[\#00A859\],#traffic-modal button.bg-\[\#00A859\],.oth-btn,.fo-btn,.oc-btn{
   background:linear-gradient(180deg,var(--g1),var(--g2))!important;color:#ffffff!important;border:1px solid var(--g2)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 4px 0 var(--g3),0 9px 14px -6px rgba(0,0,0,.55)!important;
   text-shadow:0 1px 0 rgba(0,70,35,.45)}
-[onclick^="openTrafficPage"] button *,button.bg-\[\#00A859\] *,.oth-btn *,.fo-btn *,.oc-btn *{color:inherit!important}      /* text/icons inside can never turn dark */
-[onclick^="openTrafficPage"] button:hover,button.bg-\[\#00A859\]:hover,.oth-btn:hover,.fo-btn:hover,.oc-btn:hover{background:linear-gradient(180deg,#1bb571,#009a54)!important}
-[onclick^="openTrafficPage"] button:active,button.bg-\[\#00A859\]:active,.oth-btn:active,.fo-btn:active,.oc-btn:active{
+[onclick^="openTrafficPage"] button *,button.bg-\[\#00A859\] *,#traffic-modal button.bg-\[\#00A859\] *,.oth-btn *,.fo-btn *,.oc-btn *{color:inherit!important}      /* text/icons inside can never turn dark */
+[onclick^="openTrafficPage"] button:hover,button.bg-\[\#00A859\]:hover,#traffic-modal button.bg-\[\#00A859\]:hover,.oth-btn:hover,.fo-btn:hover,.oc-btn:hover{background:linear-gradient(180deg,#1bb571,#009a54)!important}
+[onclick^="openTrafficPage"] button:active,button.bg-\[\#00A859\]:active,#traffic-modal button.bg-\[\#00A859\]:active,.oth-btn:active,.fo-btn:active,.oc-btn:active{
   transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 0 var(--g3)!important}
-[onclick^="openTrafficPage"] button:disabled,button.bg-\[\#00A859\]:disabled,.oth-btn:disabled,.fo-btn:disabled,.oc-btn:disabled{opacity:.65}
+[onclick^="openTrafficPage"] button:disabled,button.bg-\[\#00A859\]:disabled,#traffic-modal button.bg-\[\#00A859\]:disabled,.oth-btn:disabled,.fo-btn:disabled,.oc-btn:disabled{opacity:.65}
 
 /* SECONDARY = green outline / tint */
 .app-back,.na-btn,.na-btn-danger,.fo-copy,.tg-pill,#traffic-modal button.bg-\[\#181E25\]{
@@ -923,6 +923,22 @@ html[data-theme="gray"] .notif-otp{border-left:4px solid var(--g2)}
 .lb-count{font-family:ui-monospace,monospace;font-size:20px;font-weight:900;color:#3fd48f;white-space:nowrap}
 .lb-count small{font-size:9px;font-weight:800;letter-spacing:.08em;color:var(--lo)}
 html[data-theme="gray"] .lb-count{color:#05603a}
+</style>
+<style id="keys-style">
+#admin-keys{display:flex;flex-direction:column;gap:12px}
+.key-card{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:14px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow,inset 0 1px 0 rgba(255,255,255,.07))}
+.key-head{display:flex;justify-content:space-between;align-items:center}
+.key-name{font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--hi)}
+.key-badge{font-size:10px;font-weight:900;letter-spacing:.1em;padding:4px 10px;border-radius:999px;border:1px solid}
+.key-badge.on{color:#fff;background:#008a4a;border-color:#008a4a}
+.key-badge.off{color:var(--lo);background:transparent;border:1px dashed var(--line-strong)}
+.key-field{display:flex;gap:8px}
+.key-field input{flex:1;min-width:0;height:40px;padding:0 12px;border-radius:10px;font-family:ui-monospace,monospace;font-size:12px;font-weight:600;outline:none;user-select:text;-webkit-user-select:text}
+.key-eye{height:40px;padding:0 12px;border-radius:10px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.key-actions{display:flex;gap:8px}
+.key-actions button{flex:1;height:40px;border-radius:10px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.key-note{font-size:11px;font-weight:600;line-height:1.5;color:var(--lo);padding:0 2px}
+html:not([data-theme="gray"]) input{background:#0f0f10!important;border:1px solid var(--line-strong)!important;color:var(--hi)!important}   /* black mode: neutral input, no purple tint */
 </style>
 <script id="theme-init">
 (function () {
@@ -1163,9 +1179,29 @@ html[data-theme="gray"] .lb-count{color:#05603a}
                     <div class="ad-tile" onclick="openBoard('today')" role="button" tabindex="0"><span class="ad-tile-t">TODAY TOP USER OTP</span><span class="ad-tile-s">Who got most OTP today</span></div>
                     <div class="ad-tile" onclick="openBoard('all')" role="button" tabindex="0"><span class="ad-tile-t">ALL TIME USER OTP</span><span class="ad-tile-s">Top users, all time</span></div>
                     <div class="ad-tile wide" onclick="openBoard('week')" role="button" tabindex="0"><span class="ad-tile-t">LAST 7 DAYS TOP</span><span class="ad-tile-s">Weekly leaderboard</span></div>
+                    <div class="ad-tile wide" onclick="openKeys()" role="button" tabindex="0"><span class="ad-tile-t">PANEL KEYS</span><span class="ad-tile-s" id="keys-tile-sub">VoltX OFF  •  Stex OFF</span></div>
                 </div>
             </div>
             <div id="admin-board" style="display:none"><div id="lb-list" class="lb-list"></div></div>
+            <div id="admin-keys" style="display:none">
+                <div class="key-card">
+                    <div class="key-head"><span class="key-name">VoltX Panel</span><span id="key-badge-voltx" class="key-badge off">OFF</span></div>
+                    <div class="key-field">
+                        <input id="key-in-voltx" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="API key (empty = OFF)">
+                        <button id="key-eye-voltx" class="na-btn key-eye" onclick="toggleKeyEye('voltx')">Show</button>
+                    </div>
+                    <div class="key-actions"><button class="oth-btn" onclick="saveKey('voltx')">Save</button><button class="na-btn" onclick="removeKey('voltx')">Remove</button></div>
+                </div>
+                <div class="key-card">
+                    <div class="key-head"><span class="key-name">Stex Panel</span><span id="key-badge-stex" class="key-badge off">OFF</span></div>
+                    <div class="key-field">
+                        <input id="key-in-stex" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="API key (empty = OFF)">
+                        <button id="key-eye-stex" class="na-btn key-eye" onclick="toggleKeyEye('stex')">Show</button>
+                    </div>
+                    <div class="key-actions"><button class="oth-btn" onclick="saveKey('stex')">Save</button><button class="na-btn" onclick="removeKey('stex')">Remove</button></div>
+                </div>
+                <p class="key-note">Saving an empty key turns that panel OFF for all users (no numbers, no live data from it). Zenex has no key and stays on.</p>
+            </div>
         </div>
     </div>
 
@@ -1173,11 +1209,11 @@ html[data-theme="gray"] .lb-count{color:#05603a}
     <script>
         //<![CDATA[
         // --- 1. VOLTX CONFIG ---
-        const VOLTX_TOKEN = "MUBHNSX3UB3"; 
+        let VOLTX_TOKEN = "";   // loaded from Firebase (Admin Panel > Panel Keys). Empty = VoltX panel OFF
         const VOLTX_URL = "https://api.2oo9.cloud/MXS47FLFX0U/tnevs/@public/api";
 
         // --- 2. STEX CONFIG ---
-        const STEX_TOKEN = "M5OHT1ZBKCD"; 
+        let STEX_TOKEN = "";   // loaded from Firebase (Admin Panel > Panel Keys). Empty = Stex panel OFF
         const STEX_URL = "https://api.2oo9.cloud/MXS47FLFX0U/tness/@public/api";
 
         // --- 3. ZENEX (all calls go through the Worker; the API key lives only on the Worker) ---
@@ -1243,6 +1279,7 @@ html[data-theme="gray"] .lb-count{color:#05603a}
         }
 
         async function requestNumber(source, rid) {
+            if (source.name !== 'Zenex' && !source.token) return null;      // panel OFF
             let response;
             if (source.name === 'Zenex') {
                 response = await fetch(`${ZENEX_BASE}/getnum`, {
@@ -1280,13 +1317,13 @@ html[data-theme="gray"] .lb-count{color:#05603a}
         async function fetchLatestSMS() {
             let combinedOtps = [];
             const requests = [
-                fetch(`${VOLTX_URL}/success-otp`, { headers: { 'mauthapi': VOLTX_TOKEN } })
+                (VOLTX_TOKEN ? fetch(`${VOLTX_URL}/success-otp`, { headers: { 'mauthapi': VOLTX_TOKEN } }) : Promise.resolve({ ok: false }))
                     .then(res => res.ok ? res.json() : null)
                     .then(res => (res && res.meta && res.meta.code === 200 && res.data && res.data.otps) 
                         ? res.data.otps.map(o => ({ ...o, provider: 'VoltX' })) : [])
                     .catch(() => []),
                 
-                fetch(`${STEX_URL}/success-otp`, { headers: { 'mauthapi': STEX_TOKEN } })
+                (STEX_TOKEN ? fetch(`${STEX_URL}/success-otp`, { headers: { 'mauthapi': STEX_TOKEN } }) : Promise.resolve({ ok: false }))
                     .then(res => res.ok ? res.json() : null)
                     .then(res => (res && res.meta && res.meta.code === 200 && res.data && res.data.otps) 
                         ? res.data.otps.map(o => ({ ...o, provider: 'Stex' })) : [])
@@ -1310,13 +1347,13 @@ html[data-theme="gray"] .lb-count{color:#05603a}
 
         async function fetchConsoleTraffic() {
             const requests = [
-                fetch(`${VOLTX_URL}/console`, { headers: { 'mauthapi': VOLTX_TOKEN } })
+                (VOLTX_TOKEN ? fetch(`${VOLTX_URL}/console`, { headers: { 'mauthapi': VOLTX_TOKEN } }) : Promise.resolve({ ok: false }))
                     .then(res => res.ok ? res.json() : null)
                     .then(res => (res && res.meta && res.meta.code === 200 && res.data) 
                         ? (res.data.hits || []).map(h => ({ ...h, provider: 'VoltX' })) : [])
                     .catch(() => []),
 
-                fetch(`${STEX_URL}/console`, { headers: { 'mauthapi': STEX_TOKEN } })
+                (STEX_TOKEN ? fetch(`${STEX_URL}/console`, { headers: { 'mauthapi': STEX_TOKEN } }) : Promise.resolve({ ok: false }))
                     .then(res => res.ok ? res.json() : null)
                     .then(res => (res && res.meta && res.meta.code === 200 && res.data) 
                         ? (res.data.hits || []).map(h => ({ ...h, provider: 'Stex' })) : [])
@@ -1651,6 +1688,7 @@ html[data-theme="gray"] .lb-count{color:#05603a}
         async function fetchAllOtps() {
             const status = {};
             const grab = async (name, url, token) => {
+                if (!token) { status[name] = false; return []; }               // panel OFF (no key)
                 try {
                     const r = await fetch(url + '/success-otp', { headers: { 'mauthapi': token } });
                     const j = r.ok ? await r.json() : null;
@@ -1927,8 +1965,9 @@ html[data-theme="gray"] .lb-count{color:#05603a}
 
         function adminShowHome() {
             adminView = 'home';
-            const h = document.getElementById('admin-home'), b = document.getElementById('admin-board'), t = document.getElementById('admin-title');
-            if (h) h.style.display = ''; if (b) b.style.display = 'none'; if (t) t.textContent = 'Admin Panel';
+            const ids = { 'admin-home': '', 'admin-board': 'none', 'admin-keys': 'none' };
+            Object.keys(ids).forEach(id => { const el = document.getElementById(id); if (el) el.style.display = ids[id]; });
+            const t = document.getElementById('admin-title'); if (t) t.textContent = 'Admin Panel';
         }
         function adminOpen() {
             if (!isAdmin()) return;
@@ -1938,7 +1977,7 @@ html[data-theme="gray"] .lb-count{color:#05603a}
             adminTimer = setInterval(() => { if (adminView === 'home') loadAdminStats(); }, 20000);
         }
         function adminClose() { if (adminTimer) { clearInterval(adminTimer); adminTimer = null; } }
-        function adminBack() { if (adminView === 'board') adminShowHome(); else closePage(); }
+        function adminBack() { if (adminView !== 'home') adminShowHome(); else closePage(); }
 
         async function loadAdminStats() {
             if (!isAdmin()) return;
@@ -1959,6 +1998,7 @@ html[data-theme="gray"] .lb-count{color:#05603a}
             if (!isAdmin()) return;
             adminView = 'board';
             document.getElementById('admin-home').style.display = 'none';
+            document.getElementById('admin-keys').style.display = 'none';
             document.getElementById('admin-board').style.display = '';
             document.getElementById('admin-title').textContent = BOARD_TITLES[kind] || 'Leaderboard';
             const list = document.getElementById('lb-list');
@@ -1999,6 +2039,86 @@ html[data-theme="gray"] .lb-count{color:#05603a}
             } catch (e) {
                 list.innerHTML = '<div class="lb-sub">' + escHtml(sub) + '</div><div class="oc-hint">Could not load data. Check connection / Firebase rules.</div>';
             }
+        }
+
+        // ---- Panel keys (admin): no key saved = that panel is OFF for everyone ----
+        const PANEL_NAMES = { voltx: 'VoltX', stex: 'Stex' };
+
+        function renderKeyStatus() {
+            const st = { voltx: !!VOLTX_TOKEN, stex: !!STEX_TOKEN };
+            Object.keys(PANEL_NAMES).forEach(k => {
+                const b = document.getElementById('key-badge-' + k);
+                if (b) { b.textContent = st[k] ? 'ON' : 'OFF'; b.className = 'key-badge ' + (st[k] ? 'on' : 'off'); }
+            });
+            const sub = document.getElementById('keys-tile-sub');
+            if (sub) sub.textContent = 'VoltX ' + (st.voltx ? 'ON' : 'OFF') + '  •  Stex ' + (st.stex ? 'ON' : 'OFF');
+        }
+
+        function applyKeys(v) {
+            v = v || {};
+            const nv = String(v.voltx || '').trim(), ns = String(v.stex || '').trim();
+            const changed = nv !== VOLTX_TOKEN || ns !== STEX_TOKEN;
+            VOLTX_TOKEN = nv; STEX_TOKEN = ns;
+            renderKeyStatus();
+            if (changed && typeof connectProSmsRefresh === 'function') connectProSmsRefresh();   // reload data with the new on/off state
+        }
+
+        function initKeys(tries) {
+            const db = getDb();
+            if (!db) { if ((tries || 0) < 20) setTimeout(() => initKeys((tries || 0) + 1), 500); return; }
+            db.ref('settings/keys').on('value', s => applyKeys(s.val()), e => { console.error('keys read failed:', e); applyKeys(null); });
+        }
+        window.addEventListener('load', () => initKeys(0));
+
+        function fillKeyInputs() {
+            if (!isAdmin()) return;
+            const map = { voltx: VOLTX_TOKEN, stex: STEX_TOKEN };
+            Object.keys(map).forEach(k => {
+                const i = document.getElementById('key-in-' + k);
+                if (i) { i.value = map[k]; i.type = 'password'; }
+                const e = document.getElementById('key-eye-' + k);
+                if (e) e.textContent = 'Show';
+            });
+        }
+
+        function openKeys() {
+            if (!isAdmin()) return;
+            adminView = 'keys';
+            document.getElementById('admin-home').style.display = 'none';
+            document.getElementById('admin-board').style.display = 'none';
+            document.getElementById('admin-keys').style.display = '';
+            document.getElementById('admin-title').textContent = 'Panel Keys';
+            renderKeyStatus();
+            fillKeyInputs();
+        }
+
+        function toggleKeyEye(k) {
+            const i = document.getElementById('key-in-' + k), e = document.getElementById('key-eye-' + k);
+            if (!i) return;
+            const show = i.type === 'password';
+            i.type = show ? 'text' : 'password';
+            if (e) e.textContent = show ? 'Hide' : 'Show';
+        }
+
+        async function saveKey(k) {
+            if (!isAdmin() || !PANEL_NAMES[k]) return;
+            const db = getDb();
+            if (!db) { notify('warn', 'Firebase not ready', 'Try again in a moment', { key: 'key' }); return; }
+            const input = document.getElementById('key-in-' + k);
+            const val = input ? input.value.trim() : '';
+            try {
+                if (val) await db.ref('settings/keys/' + k).set(val);
+                else await db.ref('settings/keys/' + k).remove();
+                notify('ok', PANEL_NAMES[k] + ' panel ' + (val ? 'ON' : 'OFF'), val ? 'Key saved' : 'No key saved, panel is OFF', { key: 'key' });
+            } catch (e) {
+                notify('warn', 'Save failed', 'Check Firebase rules', { key: 'key' });
+            }
+        }
+
+        function removeKey(k) {
+            const input = document.getElementById('key-in-' + k);
+            if (input) input.value = '';
+            saveKey(k);
         }
 
         syncPages();                                   // open the page named in the URL hash (after all page code is defined)
